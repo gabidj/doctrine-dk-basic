@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Handler;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Dot\User\Entity\UserEntity;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,21 +17,55 @@ use function time;
 
 class DoctrineHandler implements RequestHandlerInterface
 {
+    /**
+     * @var ContainerInterface $container
+     */
     protected $container;
+
+    /**
+     * @var EntityManager $entityManager
+     */
+    protected $entityManager;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     *
+     */
     private function bootstrap()
     {
-
+        /*
+            dbname:               database
+            host:                 localhost
+            port:                 1234
+            user:                 user
+            password:             secret
+            driver:               pdo_mysql
+        */
+        $containerConfig = $this->container->get('config');
+        $dbC = $containerConfig['db']['adapters']['database'];
+        $conn = [
+            'dbname' => $dbC['database'],
+            'host' => $dbC['hostname'],
+            'user' => $dbC['username'],
+            'password' => $dbC['password'],
+            'driver' => strtolower($dbC['driver']),
+        ];
+        $path = dirname(__DIR__, 3).'/Dot/src';
+        $doctrineConfig = Setup::createAnnotationMetadataConfiguration([$path], true);
+        $this->entityManager = EntityManager::create($conn, $doctrineConfig);
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        exit;
+        $this->bootstrap();
+        $userRepo = $this->entityManager->getRepository(UserEntity::class);
+        echo '<pre/>';
+        \var_dump($userRepo->findAll());
+        exit(__FILE__ . ':' . __LINE__);
         return new JsonResponse(['ack' => time()]);
     }
 }
