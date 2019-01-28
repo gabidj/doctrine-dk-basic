@@ -26,5 +26,6 @@ require 'vendor/autoload.php';
     (require 'config/pipeline.php')($app, $factory, $container);
     (require 'config/routes.php')($app, $factory, $container);
 
+
     $app->run();
 })();
