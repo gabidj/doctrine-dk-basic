@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Dot\User\Entity\RoleEntity;
 use Dot\User\Entity\UserEntity;
+use Dot\User\Mapper\UserDoctrineMapper;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -61,7 +62,11 @@ class DoctrineHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $this->bootstrap();
-        //*//
+        $data = [];
+
+        $userMapper = new UserDoctrineMapper($this->entityManager);
+        $data = $userMapper->getByEmail('gabi@dot.com');
+        /*//
         $userRepo = $this->entityManager->getRepository(UserEntity::class);
         $data = [];
         $data = $userRepo->findAll();
