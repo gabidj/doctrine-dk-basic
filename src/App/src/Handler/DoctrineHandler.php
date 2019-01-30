@@ -6,14 +6,13 @@ namespace App\Handler;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Dot\User\Entity\RoleEntity;
 use Dot\User\Entity\UserEntity;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
-
-use function time;
 
 class DoctrineHandler implements RequestHandlerInterface
 {
@@ -62,10 +61,12 @@ class DoctrineHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $this->bootstrap();
+        //*//
         $userRepo = $this->entityManager->getRepository(UserEntity::class);
-        echo '<pre/>';
-        \var_dump($userRepo->findAll());
-        exit(__FILE__ . ':' . __LINE__);
-        return new JsonResponse(['ack' => time()]);
+        $data = [];
+        $data = $userRepo->findAll();
+        //*/
+        // $data = $this->entityManager->getRepository(RoleEntity::class)->findAll();
+        return new JsonResponse($data);
     }
 }

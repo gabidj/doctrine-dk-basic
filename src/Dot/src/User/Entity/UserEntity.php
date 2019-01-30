@@ -11,7 +11,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Dot\Authentication\Identity\IdentityInterface as AuthenticationIdentity;
 use Dot\Authorization\Identity\IdentityInterface as AuthorizationIdentity;
-use Doctrine\ORM\Mapping as ORM;
+// use Doctrine\ORM\Mapping as ORM;
 
 use Dot\Mapper\Entity\Entity;
 use Dot\User\Entity\UserEntityRepository;
@@ -19,8 +19,8 @@ use Dot\User\Entity\UserEntityRepository;
 /**
  * Class UserEntity
  * @package Dot\User\Entity
- * @ORM\Table("user")
- * @ORM\Entity(repositoryClass="UserEntityRepository")
+ * @Table("user")
+ * @Entity(repositoryClass="UserEntityRepository")
  */
 class UserEntity extends Entity implements
     AuthenticationIdentity,
@@ -33,48 +33,48 @@ class UserEntity extends Entity implements
     const STATUS_DELETED = 'deleted';
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @Column(type="string")
      * @var string
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @Column(type="string")
      * @var string
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string")
+     * @Column(type="string")
      * @var string
      */
     protected $password;
 
     /**
-     * @ORM\Column(type="string")
+     * @Column(type="string")
      * @var string
      */
     protected $status;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @Column(type="datetime")
      * @var DateTime
      */
     protected $dateCreated;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RoleEntity", fetch="EAGER")
-     * @ORM\JoinTable(
+     * @ManyToMany(targetEntity="RoleEntity", fetch="EAGER")
+     * @JoinTable(
      *     name="user_roles",
-     *     joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="roleId", referencedColumnName="id")})
+     *     joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")})
      * @var array
      */
     protected $roles;

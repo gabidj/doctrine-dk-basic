@@ -1,8 +1,8 @@
 <?php
 /**
- * @ORM\see https://github.com/dotkernel/dot-user/ for the canonical source repository
- * @ORM\copyright Copyright (c) 2017 Apidemia (https://www.apidemia.com)
- * @ORM\license https://github.com/dotkernel/dot-user/blob/master/LICENSE.md MIT License
+ * @see https://github.com/dotkernel/dot-user/ for the canonical source repository
+ * @copyright Copyright (c) 2017 Apidemia (https://www.apidemia.com)
+ * @license https://github.com/dotkernel/dot-user/blob/master/LICENSE.md MIT License
  */
 
 declare(strict_types = 1);
@@ -17,30 +17,30 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class RoleEntity
  * @package Dot\User\Entity
- * @ORM\Entity()
- * @ORM\Table("user_role")
+ * @Entity()
+ * @Table("user_role")
  */
 class RoleEntity extends Entity implements \JsonSerializable
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @Column(type="string")
      * @var string
      */
     protected $name;
 
     /**
      * Many Groups have Many Users.
-     * @ORM\OneToMany(targetEntity="UserEntity", mappedBy="roles", fetch="EXTRA_LAZY")
-     * @ORM\JoinTable(name="user_roles",
-     *            joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="roleId", referencedColumnName="id")}
+     * @OneToMany(targetEntity="UserEntity", mappedBy="roles", fetch="EXTRA_LAZY")
+     * @JoinTable(name="user_roles",
+     *            joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")}
      *   )
      */
     private $users;
