@@ -107,27 +107,42 @@ class UserDoctrineMapper implements UserMapperInterface
 
     public function get($primaryKey, array $options = [])
     {
-        // TODO: Implement get() method.
+        //$primaryKeyName = $this->entityManager->getClassMetadata(self::USER_ENTITY)->getSingleIdentifierFieldName();
+        $primaryKeyName = $this->entityManager->getClassMetadata(self::USER_ENTITY)->getSingleIdentifierColumnName();
+
+        $orderBy = $options['order'] ?? null;
+        $user = $this->entityManager->getRepository(self::USER_ENTITY)->findOneBy([$primaryKeyName=> $primaryKey], $orderBy);
+        if ($user instanceof UserEntity) {
+            return $user;
+        }
+        return null;
     }
 
     public function save(EntityInterface $entity, array $options = [])
     {
-        // TODO: Implement save() method.
+        if ($options) {
+            throw new \Exception('options not implemented');
+        }
+        return $this->entityManager->persist($entity);
     }
 
     public function delete(EntityInterface $entity, array $options = [])
     {
-        // TODO: Implement delete() method.
+        if ($options) {
+            throw new \Exception('options not implemented');
+        }
+        $this->entityManager->remove($entity);
+        $this->entityManager->flush();
     }
 
     public function updateAll(array $fields, array $conditions)
     {
-        // TODO: Implement updateAll() method.
+        throw new \Exception('options not implemented');
     }
 
     public function deleteAll(array $conditions)
     {
-        // return $this->entityManager->getRepository(self::USER_ENTITY)->
+        throw new \Exception('options not implemented');
     }
 
     public function newEntity(): EntityInterface

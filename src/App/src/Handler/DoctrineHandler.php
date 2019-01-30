@@ -66,6 +66,7 @@ class DoctrineHandler implements RequestHandlerInterface
 
         $userMapper = new UserDoctrineMapper($this->entityManager);
         $data = $userMapper->getByEmail('gabi@dot.com');
+        $data = $userMapper->get(3);
         /*//
         $userRepo = $this->entityManager->getRepository(UserEntity::class);
         $data = [];
