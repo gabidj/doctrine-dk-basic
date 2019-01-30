@@ -9,6 +9,7 @@
 namespace Dot\User\Mapper;
 
 use Doctrine\ORM\EntityManager;
+use Dot\Hydrator\ClassMethodsCamelCase;
 use Dot\Mapper\Entity\EntityInterface;
 use Dot\User\Entity\UserEntity;
 use Zend\Hydrator\HydratorInterface;
@@ -18,6 +19,7 @@ class UserDoctrineMapper implements UserMapperInterface
     const USER_ENTITY = UserEntity::class;
 
     protected $entityManager;
+    protected $inTransaction = false;
 
     /**
      * UserDoctrineMapper constructor.
@@ -40,27 +42,27 @@ class UserDoctrineMapper implements UserMapperInterface
 
     public function beginTransaction()
     {
-        // TODO: Implement beginTransaction() method.
+        $this->entityManager->beginTransaction();
     }
 
     public function inTransaction(): bool
     {
-        // TODO: Implement inTransaction() method.
+        return $this->entityManager->getConnection()->isTransactionActive();
     }
 
     public function commit()
     {
-        // TODO: Implement commit() method.
+        $this->entityManager->commit();
     }
 
     public function rollback()
     {
-        // TODO: Implement rollback() method.
+        $this->entityManager->rollback();
     }
 
     public function lastGeneratedValue(string $name = null)
     {
-        // TODO: Implement lastGeneratedValue() method.
+        return $this->entityManager->getConnection()->lastInsertId($name);
     }
 
     public function quoteIdentifier($identifier): string
@@ -70,27 +72,27 @@ class UserDoctrineMapper implements UserMapperInterface
 
     public function getPrimaryKey(): array
     {
-        // TODO: Implement getPrimaryKey() method.
+        return $this->entityManager->getClassMetadata(self::USER_ENTITY)->getIdentifierColumnNames();
     }
 
     public function getColumns(): array
     {
-        // TODO: Implement getColumns() method.
+        return $this->entityManager->getClassMetadata(self::USER_ENTITY)->getColumnNames();
     }
 
     public function getPrototype(): EntityInterface
     {
-        // TODO: Implement getPrototype() method.
+        return new UserEntity();
     }
 
     public function getHydrator(): HydratorInterface
     {
-        // TODO: Implement getHydrator() method.
+        return new ClassMethodsCamelCase();
     }
 
     public function quoteValue($value): string
     {
-        // TODO: Implement quoteValue() method.
+        $this->entityManager->getConnection()->quote($value);
     }
 
     public function find(string $type, array $options = []): array
@@ -125,12 +127,12 @@ class UserDoctrineMapper implements UserMapperInterface
 
     public function deleteAll(array $conditions)
     {
-        // TODO: Implement deleteAll() method.
+        // return $this->entityManager->getRepository(self::USER_ENTITY)->
     }
 
     public function newEntity(): EntityInterface
     {
-        // TODO: Implement newEntity() method.
+        return new UserEntity();
     }
 
 
